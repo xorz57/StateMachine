@@ -65,11 +65,11 @@ namespace xorz57 {
             m_transition_table = transition_table;
         }
 
-        void set_enter_action(const state_t &state, state_enter_action_t &state_enter_action) {
+        void set_state_enter_action(const state_t &state, state_enter_action_t &state_enter_action) {
             m_state_enter_actions[state] = state_enter_action;
         }
 
-        void set_leave_action(const state_t &state, state_leave_action_t &state_leave_action) {
+        void set_state_leave_action(const state_t &state, state_leave_action_t &state_leave_action) {
             m_state_leave_actions[state] = state_leave_action;
         }
 
