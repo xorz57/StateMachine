@@ -5,7 +5,7 @@
 #include <utility>
 
 namespace xorz57 {
-    struct transition_table_hash {
+    struct transition_table_hash_t {
         template<class state_t, class event_t>
         std::size_t operator()(const std::pair<state_t, event_t> &p) const {
             auto hash1 = std::hash<state_t>{}(p.first);
@@ -14,7 +14,7 @@ namespace xorz57 {
         }
     };
 
-    struct transition_table_key_equal {
+    struct transition_table_key_equal_t {
         template<class state_t, class event_t>
         bool operator()(const std::pair<state_t, event_t> &p1, const std::pair<state_t, event_t> &p2) const {
             return p1.first == p2.first && p1.second == p2.second;
@@ -22,14 +22,14 @@ namespace xorz57 {
     };
 
     template<typename state_t, typename event_t>
-    using transition_table = std::unordered_map<std::pair<state_t, event_t>, std::pair<state_t, const std::function<void()>>, transition_table_hash, transition_table_key_equal>;
+    using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::pair<state_t, const std::function<void()>>, transition_table_hash_t, transition_table_key_equal_t>;
 
     template<typename state_t, typename event_t>
-    class state_machine {
+    class state_machine_t {
     public:
-        explicit state_machine(const state_t &state) : m_state(state) {}
+        explicit state_machine_t(const state_t &state) : m_state(state) {}
 
-        state_machine(const state_t &state, transition_table<state_t, event_t> transition_table) : m_state(state), m_transition_table(std::move(transition_table)) {}
+        state_machine_t(const state_t &state, transition_table_t<state_t, event_t> transition_table) : m_state(state), m_transition_table(std::move(transition_table)) {}
 
         bool handle_event(const event_t &event) {
             auto it = m_transition_table.find({m_state, event});
@@ -60,7 +60,7 @@ namespace xorz57 {
             m_state = state;
         }
 
-        void set_transition_table(const transition_table<state_t, event_t> &transition_table) {
+        void set_transition_table(const transition_table_t<state_t, event_t> &transition_table) {
             m_transition_table = transition_table;
         }
 
@@ -74,7 +74,7 @@ namespace xorz57 {
 
     private:
         state_t m_state;
-        transition_table<state_t, event_t> m_transition_table;
+        transition_table_t<state_t, event_t> m_transition_table;
         std::unordered_map<state_t, const std::function<void()>> m_enter_actions;
         std::unordered_map<state_t, const std::function<void()>> m_leave_actions;
     };
@@ -116,13 +116,13 @@ static std::string to_string(const event &event) {
 int main() {
     state s = state::idle;
 
-    xorz57::transition_table<state, event> tt{
+    xorz57::transition_table_t<state, event> tt{
             {{state::idle, event::start}, {state::running, []() { std::cout << "transition_action: starting" << std::endl; }}},
             {{state::running, event::stop}, {state::stopped, []() { std::cout << "transition_action: stopping" << std::endl; }}},
             {{state::stopped, event::start}, {state::running, []() { std::cout << "transition_action: starting" << std::endl; }}},
     };
 
-    xorz57::state_machine<state, event> sm(s, tt);
+    xorz57::state_machine_t<state, event> sm(s, tt);
     std::cout << to_string(sm.get_state()) << std::endl;
 
     sm.handle_event(event::start);
