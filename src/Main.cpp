@@ -71,13 +71,13 @@ public:
             auto state = it->second.first;
             auto transition_action = it->second.second;
             if (m_state != state) {
-                if (leave_actions.find(m_state) != leave_actions.end()) {
-                    leave_actions[m_state]();
+                if (m_leave_actions.find(m_state) != m_leave_actions.end()) {
+                    m_leave_actions[m_state]();
                 }
                 m_state = state;
                 transition_action();
-                if (enter_actions.find(m_state) != enter_actions.end()) {
-                    enter_actions[m_state]();
+                if (m_enter_actions.find(m_state) != m_enter_actions.end()) {
+                    m_enter_actions[m_state]();
                 }
             }
         } else {
@@ -94,18 +94,18 @@ public:
     }
 
     void set_enter_action(const state &state, const std::function<void()> &enter_action) {
-        enter_actions[state] = enter_action;
+        m_enter_actions[state] = enter_action;
     }
 
     void set_leave_action(const state &state, const std::function<void()> &leave_action) {
-        leave_actions[state] = leave_action;
+        m_leave_actions[state] = leave_action;
     }
 
 private:
     state m_state;
     transition_table m_transition_table;
-    std::unordered_map<state, std::function<void()>> enter_actions;
-    std::unordered_map<state, std::function<void()>> leave_actions;
+    std::unordered_map<state, std::function<void()>> m_enter_actions;
+    std::unordered_map<state, std::function<void()>> m_leave_actions;
 };
 
 int main() {
