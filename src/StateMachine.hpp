@@ -19,13 +19,13 @@ namespace xorz57 {
         }
     };
 
-    using transition_guard_t = std::function<bool()>;
-    using transition_action_t = std::function<void()>;
-    using state_enter_action_t = std::function<void()>;
-    using state_leave_action_t = std::function<void()>;
+    using guard_t = std::function<bool()>;
+    using action_t = std::function<void()>;
+    using enter_action_t = std::function<void()>;
+    using leave_action_t = std::function<void()>;
 
     template<typename state_t, typename event_t>
-    using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::tuple<transition_guard_t, transition_action_t, state_t>, transition_table_hash_t, transition_table_key_equal_t>;
+    using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::tuple<guard_t, action_t, state_t>, transition_table_hash_t, transition_table_key_equal_t>;
 
     template<typename state_t, typename event_t>
     class state_machine_t {
@@ -37,17 +37,17 @@ namespace xorz57 {
         bool handle_event(const event_t &event) {
             auto it = m_transition_table.find({m_state, event});
             if (it != m_transition_table.end()) {
-                auto transition_guard = std::get<0>(it->second);
-                auto transition_action = std::get<1>(it->second);
+                auto guard = std::get<0>(it->second);
+                auto action = std::get<1>(it->second);
                 auto state = std::get<2>(it->second);
-                if (transition_guard() && m_state != state) {
-                    if (m_state_leave_actions.find(m_state) != m_state_leave_actions.end()) {
-                        m_state_leave_actions[m_state]();
+                if (guard() && m_state != state) {
+                    if (m_leave_actions.find(m_state) != m_leave_actions.end()) {
+                        m_leave_actions[m_state]();
                     }
                     m_state = state;
-                    transition_action();
-                    if (m_state_enter_actions.find(m_state) != m_state_enter_actions.end()) {
-                        m_state_enter_actions[m_state]();
+                    action();
+                    if (m_enter_actions.find(m_state) != m_enter_actions.end()) {
+                        m_enter_actions[m_state]();
                     }
                 }
                 return true;
@@ -68,18 +68,18 @@ namespace xorz57 {
             m_transition_table = transition_table;
         }
 
-        void set_state_enter_action(const state_t &state, const state_enter_action_t &state_enter_action) {
-            m_state_enter_actions[state] = state_enter_action;
+        void set_enter_action(const state_t &state, const enter_action_t &enter_action) {
+            m_enter_actions[state] = enter_action;
         }
 
-        void set_state_leave_action(const state_t &state, const state_leave_action_t &state_leave_action) {
-            m_state_leave_actions[state] = state_leave_action;
+        void set_leave_action(const state_t &state, const leave_action_t &leave_action) {
+            m_leave_actions[state] = leave_action;
         }
 
     private:
         state_t m_state;
         transition_table_t<state_t, event_t> m_transition_table;
-        std::unordered_map<state_t, state_enter_action_t> m_state_enter_actions;
-        std::unordered_map<state_t, state_leave_action_t> m_state_leave_actions;
+        std::unordered_map<state_t, enter_action_t> m_enter_actions;
+        std::unordered_map<state_t, leave_action_t> m_leave_actions;
     };
 }// namespace xorz57
