@@ -114,15 +114,13 @@ static std::string to_string(const event &event) {
 }
 
 int main() {
-    state s = state::idle;
-
     xorz57::transition_table_t<state, event> tt{
             {{state::idle, event::start}, {state::running, []() { std::cout << "transition_action: starting" << std::endl; }}},
             {{state::running, event::stop}, {state::stopped, []() { std::cout << "transition_action: stopping" << std::endl; }}},
             {{state::stopped, event::start}, {state::running, []() { std::cout << "transition_action: starting" << std::endl; }}},
     };
 
-    xorz57::state_machine_t<state, event> sm(s, tt);
+    xorz57::state_machine_t<state, event> sm(state::idle, tt);
     std::cout << to_string(sm.get_state()) << std::endl;
 
     sm.handle_event(event::start);
