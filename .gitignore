@@ -1,0 +1,17 @@
+# IntelliJ CLion
+/.idea/
+/cmake-build-*/
+
+# Microsoft Visual Studio Code
+/.vscode/
+/build/
+
+# Microsoft Visual Studio
+/.vs/
+/out/
+
+# clangd
+/.cache/
+
+# Doxygen
+/docs/
