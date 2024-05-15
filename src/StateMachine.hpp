@@ -1,4 +1,5 @@
 #include <functional>
+#include <tuple>
 #include <unordered_map>
 
 namespace xorz57 {
@@ -18,12 +19,13 @@ namespace xorz57 {
         }
     };
 
+    using transition_guard_t = std::function<bool()>;
     using transition_action_t = std::function<void()>;
     using state_enter_action_t = std::function<void()>;
     using state_leave_action_t = std::function<void()>;
 
     template<typename state_t, typename event_t>
-    using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::pair<state_t, transition_action_t>, transition_table_hash_t, transition_table_key_equal_t>;
+    using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::tuple<state_t, transition_action_t, transition_guard_t>, transition_table_hash_t, transition_table_key_equal_t>;
 
     template<typename state_t, typename event_t>
     class state_machine_t {
@@ -35,9 +37,10 @@ namespace xorz57 {
         bool handle_event(const event_t &event) {
             auto it = m_transition_table.find({m_state, event});
             if (it != m_transition_table.end()) {
-                auto state = it->second.first;
-                auto transition_action = it->second.second;
-                if (m_state != state) {
+                auto state = std::get<0>(it->second);
+                auto transition_guard = std::get<2>(it->second);
+                auto transition_action = std::get<1>(it->second);
+                if (transition_guard() && m_state != state) {
                     if (m_state_leave_actions.find(m_state) != m_state_leave_actions.end()) {
                         m_state_leave_actions[m_state]();
                     }

@@ -39,10 +39,12 @@ int main() {
     const auto start = []() { std::cout << "transition_action: starting" << std::endl; };
     const auto stop = []() { std::cout << "transition_action: stopping" << std::endl; };
 
+    const auto guard = []() { return true; };
+
     xorz57::transition_table_t<state, event> tt{
-            {{state::idle, event::start}, {state::running, start}},
-            {{state::running, event::stop}, {state::stopped, stop}},
-            {{state::stopped, event::start}, {state::running, start}},
+            {{state::idle, event::start}, {state::running, start, guard}},
+            {{state::running, event::stop}, {state::stopped, stop, guard}},
+            {{state::stopped, event::start}, {state::running, start, guard}},
     };
 
     xorz57::state_machine_t<state, event> sm(state::idle, tt);
