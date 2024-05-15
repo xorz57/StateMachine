@@ -18,9 +18,9 @@ namespace xorz57 {
         }
     };
 
-    using transition_action_t = const std::function<void()>;
-    using state_enter_action_t = const std::function<void()>;
-    using state_leave_action_t = const std::function<void()>;
+    using transition_action_t = std::function<void()>;
+    using state_enter_action_t = std::function<void()>;
+    using state_leave_action_t = std::function<void()>;
 
     template<typename state_t, typename event_t>
     using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::pair<state_t, transition_action_t>, transition_table_hash_t, transition_table_key_equal_t>;

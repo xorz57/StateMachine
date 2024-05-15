@@ -36,10 +36,13 @@ static std::string to_string(const event &event) {
 }
 
 int main() {
+    const auto start = []() { std::cout << "transition_action: starting" << std::endl; };
+    const auto stop = []() { std::cout << "transition_action: stopping" << std::endl; };
+
     xorz57::transition_table_t<state, event> tt{
-            {{state::idle, event::start}, {state::running, []() { std::cout << "transition_action: starting" << std::endl; }}},
-            {{state::running, event::stop}, {state::stopped, []() { std::cout << "transition_action: stopping" << std::endl; }}},
-            {{state::stopped, event::start}, {state::running, []() { std::cout << "transition_action: starting" << std::endl; }}},
+            {{state::idle, event::start}, {state::running, start}},
+            {{state::running, event::stop}, {state::stopped, stop}},
+            {{state::stopped, event::start}, {state::running, start}},
     };
 
     xorz57::state_machine_t<state, event> sm(state::idle, tt);
