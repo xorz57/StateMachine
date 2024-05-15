@@ -22,7 +22,7 @@ namespace xorz57 {
     };
 
     template<typename state_t, typename event_t>
-    using transition_table = std::unordered_map<std::pair<state_t, event_t>, std::pair<state_t, std::function<void()>>, transition_table_hash, transition_table_key_equal>;
+    using transition_table = std::unordered_map<std::pair<state_t, event_t>, std::pair<state_t, const std::function<void()>>, transition_table_hash, transition_table_key_equal>;
 
     template<typename state_t, typename event_t>
     class state_machine {
@@ -75,8 +75,8 @@ namespace xorz57 {
     private:
         state_t m_state;
         transition_table<state_t, event_t> m_transition_table;
-        std::unordered_map<state_t, std::function<void()>> m_enter_actions;
-        std::unordered_map<state_t, std::function<void()>> m_leave_actions;
+        std::unordered_map<state_t, const std::function<void()>> m_enter_actions;
+        std::unordered_map<state_t, const std::function<void()>> m_leave_actions;
     };
 }// namespace xorz57
 
