@@ -6,17 +6,17 @@
 
 namespace xorz57 {
     struct transition_table_hash {
-        template<class T1, class T2>
-        std::size_t operator()(const std::pair<T1, T2> &pair) const {
-            auto hash1 = std::hash<T1>{}(pair.first);
-            auto hash2 = std::hash<T2>{}(pair.second);
+        template<class state_t, class event_t>
+        std::size_t operator()(const std::pair<state_t, event_t> &pair) const {
+            auto hash1 = std::hash<state_t>{}(pair.first);
+            auto hash2 = std::hash<event_t>{}(pair.second);
             return hash1 ^ hash2;
         }
     };
 
     struct transition_table_key_equal {
-        template<class T1, class T2>
-        bool operator()(const std::pair<T1, T2> &p1, const std::pair<T1, T2> &p2) const {
+        template<class state_t, class event_t>
+        bool operator()(const std::pair<state_t, event_t> &p1, const std::pair<state_t, event_t> &p2) const {
             return p1.first == p2.first && p1.second == p2.second;
         }
     };
