@@ -27,6 +27,9 @@ namespace xorz57 {
     template<typename state_t, typename event_t>
     using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::tuple<guard_t, action_t, state_t>, transition_table_hash_t, transition_table_key_equal_t>;
 
+    // template<typename state_t, typename event_t>
+    // using transition_table_t = std::vector<std::pair<std::pair<state_t, event_t>, std::tuple<guard_t, action_t, state_t>>>;
+
     template<typename state_t, typename event_t>
     class state_machine_t {
     public:
@@ -35,11 +38,14 @@ namespace xorz57 {
         state_machine_t(const state_t &state, transition_table_t<state_t, event_t> transition_table) : m_state(state), m_transition_table(std::move(transition_table)) {}
 
         bool handle_event(const event_t &event) {
-            auto it = m_transition_table.find({m_state, event});
+            const auto it = m_transition_table.find({m_state, event});
+            // const auto it = std::find_if(m_transition_table.begin(), m_transition_table.end(), [&](const auto &transition) {
+            //     return transition.first.first == m_state && transition.first.second == event;
+            // });
             if (it != m_transition_table.end()) {
-                auto guard = std::get<0>(it->second);
-                auto action = std::get<1>(it->second);
-                auto state = std::get<2>(it->second);
+                const auto &guard = std::get<0>(it->second);
+                const auto &action = std::get<1>(it->second);
+                const auto &state = std::get<2>(it->second);
                 if (guard() && m_state != state) {
                     if (m_leave_actions.find(m_state) != m_leave_actions.end()) {
                         m_leave_actions[m_state]();
