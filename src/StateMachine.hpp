@@ -3,21 +3,21 @@
 #include <unordered_map>
 
 namespace xorz57 {
-    struct transition_table_hash_t {
-        template<class state_t, class event_t>
-        std::size_t operator()(const std::pair<state_t, event_t> &p) const {
-            auto hash1 = std::hash<state_t>{}(p.first);
-            auto hash2 = std::hash<event_t>{}(p.second);
-            return hash1 ^ hash2;
-        }
-    };
+    // struct transition_table_hash_t {
+    //     template<class state_t, class event_t>
+    //     std::size_t operator()(const std::pair<state_t, event_t> &p) const {
+    //         auto hash1 = std::hash<state_t>{}(p.first);
+    //         auto hash2 = std::hash<event_t>{}(p.second);
+    //         return hash1 ^ hash2;
+    //     }
+    // };
 
-    struct transition_table_key_equal_t {
-        template<class state_t, class event_t>
-        bool operator()(const std::pair<state_t, event_t> &p1, const std::pair<state_t, event_t> &p2) const {
-            return p1.first == p2.first && p1.second == p2.second;
-        }
-    };
+    // struct transition_table_key_equal_t {
+    //     template<class state_t, class event_t>
+    //     bool operator()(const std::pair<state_t, event_t> &p1, const std::pair<state_t, event_t> &p2) const {
+    //         return p1.first == p2.first && p1.second == p2.second;
+    //     }
+    // };
 
     using guard_t = std::function<bool()>;
     using action_t = std::function<void()>;
