@@ -40,12 +40,13 @@ int main() {
     const auto action2 = []() { std::cout << "action2" << std::endl; };
 
     const auto guard1 = []() { return true; };
-    const auto guard2 = []() { return false; };
+    const auto guard2 = []() { return true; };
+    const auto guard3 = []() { return false; };
 
     xorz57::transition_table_t<state, event> tt{
             {{state::state0, event::event1}, {guard1, action1, state::state1}},
-            {{state::state1, event::event2}, {guard1, action2, state::state2}},
-            {{state::state2, event::event1}, {guard2, action1, state::state1}},
+            {{state::state1, event::event2}, {guard2, action2, state::state2}},
+            {{state::state2, event::event1}, {guard3, action1, state::state1}},
     };
 
     xorz57::state_machine_t<state, event> sm(state::state0, tt);
