@@ -24,6 +24,12 @@ namespace xorz57 {
     using enter_action_t = std::function<void()>;
     using leave_action_t = std::function<void()>;
 
+    template<typename state_t>
+    using enter_actions_t = std::unordered_map<state_t, enter_action_t>;
+
+    template<typename state_t>
+    using leave_actions_t = std::unordered_map<state_t, leave_action_t>;
+
     // template<typename state_t, typename event_t>
     // using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::tuple<guard_t, action_t, state_t>, transition_table_hash_t, transition_table_key_equal_t>;
 
@@ -70,11 +76,11 @@ namespace xorz57 {
             return m_transition_table;
         }
 
-        [[nodiscard]] std::unordered_map<state_t, enter_action_t> get_enter_actions() const {
+        [[nodiscard]] enter_actions_t<state_t> get_enter_actions() const {
             return m_enter_actions;
         }
 
-        [[nodiscard]] std::unordered_map<state_t, leave_action_t> get_leave_actions() const {
+        [[nodiscard]] leave_actions_t<state_t> get_leave_actions() const {
             return m_leave_actions;
         }
 
@@ -97,7 +103,7 @@ namespace xorz57 {
     private:
         state_t m_state;
         transition_table_t<state_t, event_t> m_transition_table;
-        std::unordered_map<state_t, enter_action_t> m_enter_actions;
-        std::unordered_map<state_t, leave_action_t> m_leave_actions;
+        enter_actions_t<state_t> m_enter_actions;
+        leave_actions_t<state_t> m_leave_actions;
     };
 }// namespace xorz57
