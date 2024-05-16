@@ -63,7 +63,7 @@ namespace xorz57 {
                     }
                     return true;
                 }
-                return false;
+                return true;
             }
             return false;
         }
