@@ -39,8 +39,8 @@ namespace xorz57 {
 
         bool handle_event(const event_t &event) {
             // const auto it = m_transition_table.find({m_state, event});
-            const auto it = std::find_if(m_transition_table.begin(), m_transition_table.end(), [&](const auto &transition) {
-                return transition.first.first == m_state && transition.first.second == event;
+            const auto it = std::find_if(m_transition_table.begin(), m_transition_table.end(), [&](const auto &p) {
+                return p.first.first == m_state && p.first.second == event;
             });
             if (it != m_transition_table.end()) {
                 const auto &guard = std::get<0>(it->second);
