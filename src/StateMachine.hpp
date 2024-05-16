@@ -52,9 +52,8 @@ namespace xorz57 {
                     return true;
                 }
                 return false;
-            } else {
-                return false;
             }
+            return false;
         }
 
         state_t get_state() const {
