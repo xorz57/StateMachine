@@ -1,7 +1,5 @@
 # StateMachine
 
-## State Machine Diagram
-
 ```mermaid
 stateDiagram-v2
     [*] --> state0
@@ -10,8 +8,6 @@ stateDiagram-v2
     state2 --> state1 : event1 / guard2, action1
     state2 --> [*]
 ```
-
-## Example
 
 ```cpp
 #include "StateMachine.hpp"
@@ -79,4 +75,13 @@ int main() {
 
     return 0;
 }
+```
+
+```console
+state0
+action1
+state1
+action2
+state2
+state2
 ```
