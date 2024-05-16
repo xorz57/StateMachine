@@ -30,7 +30,7 @@ namespace xorz57 {
     template<typename state_t, typename event_t>
     class state_machine_t {
     public:
-        explicit state_machine_t(const state_t &state) : m_state(state) {}
+        state_machine_t() = default;
 
         state_machine_t(const state_t &state, transition_table_t<state_t, event_t> transition_table) : m_state(state), m_transition_table(std::move(transition_table)) {}
 
