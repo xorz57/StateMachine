@@ -70,6 +70,14 @@ namespace xorz57 {
             return m_transition_table;
         }
 
+        [[nodiscard]] std::unordered_map<state_t, enter_action_t> get_enter_actions() const {
+            return m_enter_actions;
+        }
+
+        [[nodiscard]] std::unordered_map<state_t, leave_action_t> get_leave_actions() const {
+            return m_leave_actions;
+        }
+
         void set_state(const state_t &state) {
             m_state = state;
         }
