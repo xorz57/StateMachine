@@ -49,8 +49,9 @@ namespace xorz57 {
                     if (m_enter_actions.find(m_state) != m_enter_actions.end()) {
                         m_enter_actions[m_state]();
                     }
+                    return true;
                 }
-                return true;
+                return false;
             } else {
                 return false;
             }

@@ -36,8 +36,8 @@ static std::string to_string(const event &event) {
 }
 
 int main() {
-    const auto action1 = []() { std::cout << "transition_action: starting" << std::endl; };
-    const auto action2 = []() { std::cout << "transition_action: stopping" << std::endl; };
+    const auto action1 = []() { std::cout << "action: starting" << std::endl; };
+    const auto action2 = []() { std::cout << "action: stopping" << std::endl; };
 
     const auto guard1 = []() { return true; };
     const auto guard2 = []() { return false; };
