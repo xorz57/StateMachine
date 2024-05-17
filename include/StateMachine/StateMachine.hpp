@@ -2,7 +2,11 @@
 #include <functional>
 #include <tuple>
 #include <unordered_map>
+
+#if 0
+#else
 #include <vector>
+#endif
 
 #if 0
     struct transition_table_hash_t {
@@ -44,9 +48,9 @@ public:
         });
 #endif
         if (it != m_transition_table.end()) {
-            const auto &guard = std::get<0>(it->second);
-            const auto &action = std::get<1>(it->second);
-            const auto &state = std::get<2>(it->second);
+            const std::function<bool()> &guard = std::get<0>(it->second);
+            const std::function<void()> &action = std::get<1>(it->second);
+            const state_t &state = std::get<2>(it->second);
             if (guard() && m_state != state) {
                 if (m_leave_actions.find(m_state) != m_leave_actions.end()) {
                     m_leave_actions[m_state]();
