@@ -5,8 +5,15 @@
 #include <utility>
 #include <vector>
 
+using guard_t = std::function<bool()>;
+
+using action_t = std::function<void()>;
+
 template<typename state_t, typename event_t>
-using transition_table_t = std::vector<std::pair<std::pair<state_t, event_t>, std::tuple<std::function<bool()>, std::function<void()>, state_t>>>;
+using transition_t = std::pair<std::pair<state_t, event_t>, std::tuple<guard_t, action_t, state_t>>;
+
+template<typename state_t, typename event_t>
+using transition_table_t = std::vector<transition_t<state_t, event_t>>;
 
 template<typename state_t, typename event_t>
 class state_machine_t {
@@ -16,8 +23,8 @@ public:
     state_machine_t(const state_t &state, transition_table_t<state_t, event_t> transition_table) : m_state(state), m_transition_table(std::move(transition_table)) {}
 
     bool handle_event(const event_t &event) {
-        const auto it = std::find_if(m_transition_table.begin(), m_transition_table.end(), [&](const auto &p) {
-            return p.first.first == m_state && p.first.second == event;
+        const auto it = std::find_if(m_transition_table.begin(), m_transition_table.end(), [&](const transition_t<state_t, event_t> &transition) {
+            return transition.first.first == m_state && transition.first.second == event;
         });
         if (it != m_transition_table.end()) {
             const std::function<bool()> &guard = std::get<0>(it->second);
