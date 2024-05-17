@@ -14,4 +14,8 @@ else()
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 endif()
 
-add_executable(${PROJECT_NAME} src/Main.cpp)
+add_library(StateMachine INTERFACE)
+target_include_directories(StateMachine INTERFACE ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(Example examples/Example.cpp)
+target_link_libraries(Example PRIVATE StateMachine)
