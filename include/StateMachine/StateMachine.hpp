@@ -1,6 +1,7 @@
 #include <functional>
 #include <tuple>
 #include <unordered_map>
+#include <vector>
 
 #if 0
     struct transition_table_hash_t {
