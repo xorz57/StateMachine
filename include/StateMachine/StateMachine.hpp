@@ -2,35 +2,10 @@
 #include <functional>
 #include <tuple>
 #include <unordered_map>
-
-#if 0
-#else
 #include <vector>
-#endif
 
-#if 0
-    struct transition_table_hash_t {
-        template<class state_t, class event_t>
-        std::size_t operator()(const std::pair<state_t, event_t> &p) const {
-            auto hash1 = std::hash<state_t>{}(p.first);
-            auto hash2 = std::hash<event_t>{}(p.second);
-            return hash1 ^ hash2;
-        }
-    };
-
-    struct transition_table_key_equal_t {
-        template<class state_t, class event_t>
-        bool operator()(const std::pair<state_t, event_t> &p1, const std::pair<state_t, event_t> &p2) const {
-            return p1.first == p2.first && p1.second == p2.second;
-        }
-    };
-
-    template<typename state_t, typename event_t>
-    using transition_table_t = std::unordered_map<std::pair<state_t, event_t>, std::tuple<std::function<bool()>, std::function<void()>, state_t>, transition_table_hash_t, transition_table_key_equal_t>;
-#else
 template<typename state_t, typename event_t>
 using transition_table_t = std::vector<std::pair<std::pair<state_t, event_t>, std::tuple<std::function<bool()>, std::function<void()>, state_t>>>;
-#endif
 
 template<typename state_t, typename event_t>
 class state_machine_t {
@@ -40,13 +15,9 @@ public:
     state_machine_t(const state_t &state, transition_table_t<state_t, event_t> transition_table) : m_state(state), m_transition_table(std::move(transition_table)) {}
 
     bool handle_event(const event_t &event) {
-#if 0
-            const auto it = m_transition_table.find({m_state, event});
-#else
         const auto it = std::find_if(m_transition_table.begin(), m_transition_table.end(), [&](const auto &p) {
             return p.first.first == m_state && p.first.second == event;
         });
-#endif
         if (it != m_transition_table.end()) {
             const std::function<bool()> &guard = std::get<0>(it->second);
             const std::function<void()> &action = std::get<1>(it->second);
