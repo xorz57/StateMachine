@@ -35,18 +35,22 @@ static std::string to_string(const event &event) {
     return "unknown";
 }
 
-int main() {
+namespace action {
     const auto action1 = []() { std::cout << "action1" << std::endl; };
     const auto action2 = []() { std::cout << "action2" << std::endl; };
+}// namespace action
 
+namespace guard {
     const auto guard1 = []() { return true; };
     const auto guard2 = []() { return true; };
     const auto guard3 = []() { return false; };
+}// namespace guard
 
+int main() {
     transition_table_t<state, event> tt{
-            {{state::state0, event::event1}, {guard1, action1, state::state1}},
-            {{state::state1, event::event2}, {guard2, action2, state::state2}},
-            {{state::state2, event::event1}, {guard3, action1, state::state1}},
+            {{state::state0, event::event1}, {guard::guard1, action::action1, state::state1}},
+            {{state::state1, event::event2}, {guard::guard2, action::action2, state::state2}},
+            {{state::state2, event::event1}, {guard::guard3, action::action1, state::state1}},
     };
 
     state_machine_t<state, event> sm(state::state0, tt);
