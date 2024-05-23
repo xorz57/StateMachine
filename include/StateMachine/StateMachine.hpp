@@ -6,8 +6,15 @@
 #include <vector>
 
 using guard_t = std::function<bool()>;
-
 using action_t = std::function<void()>;
+using enter_action_t = std::function<void()>;
+using leave_action_t = std::function<void()>;
+
+template<typename state_t>
+using enter_actions_t = std::unordered_map<state_t, enter_action_t>;
+
+template<typename state_t>
+using leave_actions_t = std::unordered_map<state_t, leave_action_t>;
 
 template<typename state_t, typename event_t>
 using transition_t = std::pair<std::pair<state_t, event_t>, std::tuple<guard_t, action_t, state_t>>;
@@ -27,10 +34,10 @@ public:
             return transition.first.first == m_state && transition.first.second == event;
         });
         if (it != m_transition_table.end()) {
-            const std::function<bool()> &guard = std::get<0>(it->second);
-            const std::function<void()> &action = std::get<1>(it->second);
+            const guard_t &guard = std::get<0>(it->second);
+            const action_t &action = std::get<1>(it->second);
             const state_t &state = std::get<2>(it->second);
-            if (guard() && m_state != state) {
+            if (guard()) {
                 if (m_leave_actions.find(m_state) != m_leave_actions.end()) {
                     m_leave_actions[m_state]();
                 }
@@ -54,11 +61,11 @@ public:
         return m_transition_table;
     }
 
-    [[nodiscard]] std::unordered_map<state_t, std::function<void()>> get_enter_actions() const {
+    [[nodiscard]] enter_actions_t<state_t> get_enter_actions() const {
         return m_enter_actions;
     }
 
-    [[nodiscard]] std::unordered_map<state_t, std::function<void()>> get_leave_actions() const {
+    [[nodiscard]] leave_actions_t<state_t> get_leave_actions() const {
         return m_leave_actions;
     }
 
@@ -70,17 +77,17 @@ public:
         m_transition_table = transition_table;
     }
 
-    void set_enter_action(const state_t &state, const std::function<void()> &enter_action) {
+    void set_enter_action(const state_t &state, const enter_action_t &enter_action) {
         m_enter_actions[state] = enter_action;
     }
 
-    void set_leave_action(const state_t &state, const std::function<void()> &leave_action) {
+    void set_leave_action(const state_t &state, const leave_action_t &leave_action) {
         m_leave_actions[state] = leave_action;
     }
 
 private:
     state_t m_state;
     transition_table_t<state_t, event_t> m_transition_table;
-    std::unordered_map<state_t, std::function<void()>> m_enter_actions;
-    std::unordered_map<state_t, std::function<void()>> m_leave_actions;
+    enter_actions_t<state_t> m_enter_actions;
+    leave_actions_t<state_t> m_leave_actions;
 };
