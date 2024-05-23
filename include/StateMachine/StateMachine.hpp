@@ -38,13 +38,15 @@ public:
             const action_t &action = std::get<1>(it->second);
             const state_t &state = std::get<2>(it->second);
             if (guard()) {
-                if (m_leave_actions.find(m_state) != m_leave_actions.end()) {
-                    m_leave_actions[m_state]();
+                auto it1 = m_leave_actions.find(m_state);
+                if (it1 != m_leave_actions.end()) {
+                    it1->second();
                 }
                 m_state = state;
                 action();
-                if (m_enter_actions.find(m_state) != m_enter_actions.end()) {
-                    m_enter_actions[m_state]();
+                auto it2 = m_enter_actions.find(m_state);
+                if (it2 != m_enter_actions.end()) {
+                    it2->second();
                 }
                 return true;
             }
