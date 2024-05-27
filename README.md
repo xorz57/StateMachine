@@ -1,5 +1,7 @@
 # StateMachine
 
+[![Build](https://github.com/xorz57/StateMachine/actions/workflows/Build.yml/badge.svg)](https://github.com/xorz57/StateMachine/actions/workflows/Build.yml)
+
 ```mermaid
 stateDiagram-v2
     [*] --> state0
