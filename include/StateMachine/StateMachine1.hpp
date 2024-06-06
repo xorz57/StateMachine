@@ -50,7 +50,6 @@ public:
         if (it != m_transition_table.end()) {
             const action_t &action = std::get<0>(it->second);
             const state_t &state = std::get<1>(it->second);
-
             m_state = state;
             action();
             return true;
