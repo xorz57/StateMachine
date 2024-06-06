@@ -4,11 +4,9 @@
 
 ```mermaid
 stateDiagram-v2
-    [*] --> state0
-    state0 --> state1 : event1 / guard1, action1
-    state1 --> state2 : event2 / guard1, action2
-    state2 --> state1 : event1 / guard2, action1
-    state2 --> [*]
+    state0 --> state1 : event1 / action1
+    state1 --> state2 : event2 / action2
+    state2 --> state1 : event1 / action1
 ```
 
 ```cpp
