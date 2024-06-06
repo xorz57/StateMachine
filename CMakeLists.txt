@@ -20,5 +20,8 @@ target_include_directories(StateMachine INTERFACE ${CMAKE_SOURCE_DIR}/include)
 add_executable(Example1 examples/Example1.cpp)
 target_link_libraries(Example1 PRIVATE StateMachine)
 
+add_executable(Example2 examples/Example2.cpp)
+target_link_libraries(Example2 PRIVATE StateMachine)
+
 add_executable(Example3 examples/Example3.cpp)
 target_link_libraries(Example3 PRIVATE StateMachine)
