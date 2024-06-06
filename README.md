@@ -2,15 +2,17 @@
 
 [![Build](https://github.com/xorz57/StateMachine/actions/workflows/Build.yml/badge.svg)](https://github.com/xorz57/StateMachine/actions/workflows/Build.yml)
 
+## Example 3
+
 ```mermaid
 stateDiagram-v2
-    state0 --> state1 : event1 / action1
-    state1 --> state2 : event2 / action2
-    state2 --> state1 : event1 / action1
+    state0 --> state1 : event1 / guard1, action1
+    state1 --> state2 : event2 / guard2, action2
+    state2 --> state1 : event1 / guard3, action1
 ```
 
 ```cpp
-#include "StateMachine/StateMachine.hpp"
+#include "StateMachine/StateMachine3.hpp"
 
 #include <iostream>
 
@@ -33,16 +35,6 @@ static std::string to_string(const state &state) {
             return "state1";
         case state::state2:
             return "state2";
-    }
-    return "unknown";
-}
-
-static std::string to_string(const event &event) {
-    switch (event) {
-        case event::event1:
-            return "event1";
-        case event::event2:
-            return "event2";
     }
     return "unknown";
 }
