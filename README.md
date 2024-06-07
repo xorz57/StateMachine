@@ -2,7 +2,27 @@
 
 [![Build](https://github.com/xorz57/StateMachine/actions/workflows/Build.yml/badge.svg)](https://github.com/xorz57/StateMachine/actions/workflows/Build.yml)
 
-## Example 1
+## What is a state machine?
+
+A state machine is a computational model used to design systems that can be in one of a finite number of states at any given time. It consists of a set of states, transitions between those states, and actions that occur as a result of those transitions. The machine begins in an initial state and changes states based on input or events, following predefined rules. State machines are useful for modeling behaviors in various fields such as software development, digital circuit design, and robotics, allowing for clear and organized representation of complex processes and decision logic.
+
+## Implementations
+
+### Implementation 1 (55 LOC)
+
+This is a basic implementation of a state machine using a transition table. It handles events and transitions between states, performing associated actions.
+
+### Implementation 2 (90 LOC)
+
+This implementation adds enter and leave actions for each state, allowing for more control over the state transitions.
+
+### Implementation 3 (95 LOC)
+
+This implementation introduces guards, which are conditions that must be met for a transition to occur, adding another layer of control to state transitions.
+
+## Examples
+
+### Example 1
 
 ```mermaid
 stateDiagram-v2
@@ -10,6 +30,8 @@ stateDiagram-v2
     state1 --> state2 : event2 / action2
     state2 --> state1 : event1 / action1
 ```
+
+Here, we use the first implementation of our state machine to transition between states and perform actions.
 
 ```cpp
 #include "StateMachine/StateMachine1.hpp"
@@ -77,7 +99,7 @@ action1
 state1
 ```
 
-## Example 2
+### Example 2
 
 ```mermaid
 stateDiagram-v2
@@ -85,6 +107,8 @@ stateDiagram-v2
     state1 --> state2 : event2 / action2
     state2 --> state1 : event1 / action1
 ```
+
+Here, we use the second implementation to add enter and leave actions, showing more advanced state transitions.
 
 ```cpp
 #include "StateMachine/StateMachine2.hpp"
@@ -158,7 +182,7 @@ enter_action1
 state1
 ```
 
-## Example 3
+### Example 3
 
 ```mermaid
 stateDiagram-v2
@@ -166,6 +190,8 @@ stateDiagram-v2
     state1 --> state2 : event2 / guard2, action2
     state2 --> state1 : event1 / guard3, action1
 ```
+
+Here, we use the third implementation to demonstrate the use of guards, which allow or prevent transitions based on conditions.
 
 ```cpp
 #include "StateMachine/StateMachine3.hpp"
