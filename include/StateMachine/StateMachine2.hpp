@@ -74,19 +74,19 @@ public:
         return false;
     }
 
-    [[nodiscard]] state_t get_state() const {
+    state_t get_state() const {
         return m_state;
     }
 
-    [[nodiscard]] transition_table_t<state_t, event_t> get_transition_table() const {
+    transition_table_t<state_t, event_t> get_transition_table() const {
         return m_transition_table;
     }
 
-    [[nodiscard]] enter_actions_t<state_t> get_enter_actions() const {
+    enter_actions_t<state_t> get_enter_actions() const {
         return m_enter_actions;
     }
 
-    [[nodiscard]] leave_actions_t<state_t> get_leave_actions() const {
+    leave_actions_t<state_t> get_leave_actions() const {
         return m_leave_actions;
     }
 
