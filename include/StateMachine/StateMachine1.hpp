@@ -57,11 +57,11 @@ public:
         return false;
     }
 
-    [[nodiscard]] state_t get_state() const {
+    state_t get_state() const {
         return m_state;
     }
 
-    [[nodiscard]] transition_table_t<state_t, event_t> get_transition_table() const {
+    transition_table_t<state_t, event_t> get_transition_table() const {
         return m_transition_table;
     }
 
