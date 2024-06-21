@@ -51,9 +51,11 @@ namespace action {
 using data = std::variant<int, double>;
 
 int main() {
-    state_machine_t<state, event, data> sm(state::state0, {{{state::state0, event::event1}, {guard::guard1, action::action1, state::state1}},
-                                                           {{state::state1, event::event2}, {guard::guard2, action::action2, state::state2}},
-                                                           {{state::state2, event::event1}, {guard::guard3, action::action1, state::state0}}});
+    transition_table_t<state, event, data> tt{{{state::state0, event::event1}, {guard::guard1, action::action1, state::state1}},
+                                              {{state::state1, event::event2}, {guard::guard2, action::action2, state::state2}},
+                                              {{state::state2, event::event1}, {guard::guard3, action::action1, state::state0}}};
+
+    state_machine_t<state, event, data> sm(state::state0, tt);
 
     sm.handle_event(event::event1, 1);
     std::cout << to_string(sm.get_state()) << std::endl;
