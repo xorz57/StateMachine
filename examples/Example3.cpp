@@ -1,6 +1,7 @@
 #include "StateMachine/StateMachine3.hpp"
 
 #include <iostream>
+#include <string>
 
 enum class state {
     state0,
