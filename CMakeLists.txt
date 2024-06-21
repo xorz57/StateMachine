@@ -4,7 +4,7 @@ cmake_policy(SET CMP0091 NEW)
 
 project(StateMachine)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -25,3 +25,6 @@ target_link_libraries(Example2 PRIVATE StateMachine)
 
 add_executable(Example3 examples/Example3.cpp)
 target_link_libraries(Example3 PRIVATE StateMachine)
+
+add_executable(Example4 examples/Example4.cpp)
+target_link_libraries(Example4 PRIVATE StateMachine)
