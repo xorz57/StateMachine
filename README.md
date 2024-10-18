@@ -297,3 +297,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release -S . -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/s
 cmake --build build --config Release
 ctest --build-config Release
 ```
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/xorz57/StateMachine.svg?variant=adaptive)](https://starchart.cc/xorz57/StateMachine)
