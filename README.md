@@ -6,20 +6,6 @@
 
 A state machine is a computational model used to design systems that can be in one of a finite number of states at any given time. It consists of a set of states, transitions between those states, and actions that occur as a result of those transitions. The machine begins in an initial state and changes states based on input or events, following predefined rules. State machines are useful for modeling behaviors in various fields such as software development, digital circuit design, and robotics, allowing for clear and organized representation of complex processes and decision logic.
 
-## Implementations
-
-### Implementation 1 (57 LOC)
-
-This is a basic implementation of a state machine using a transition table. It handles events and transitions between states, performing associated actions.
-
-### Implementation 2 (92 LOC)
-
-This implementation adds enter and leave actions for each state, allowing for more control over the state transitions.
-
-### Implementation 3 (97 LOC)
-
-This implementation introduces guards, which are conditions that must be met for a transition to occur, adding another layer of control to state transitions.
-
 ## Examples
 
 ### Example 1
