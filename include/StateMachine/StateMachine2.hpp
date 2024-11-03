@@ -32,7 +32,9 @@
 #include <vector>
 
 using action_t = std::function<void()>;
+
 using enter_action_t = std::function<void()>;
+
 using leave_action_t = std::function<void()>;
 
 template<typename state_t>
@@ -76,22 +78,6 @@ public:
         return false;
     }
 
-    state_t get_state() const {
-        return m_state;
-    }
-
-    transition_table_t<state_t, event_t> get_transition_table() const {
-        return m_transition_table;
-    }
-
-    enter_actions_t<state_t> get_enter_actions() const {
-        return m_enter_actions;
-    }
-
-    leave_actions_t<state_t> get_leave_actions() const {
-        return m_leave_actions;
-    }
-
     void set_state(const state_t &state) {
         m_state = state;
     }
@@ -106,6 +92,22 @@ public:
 
     void set_leave_action(const state_t &state, const leave_action_t &leave_action) {
         m_leave_actions[state] = leave_action;
+    }
+
+    state_t get_state() const {
+        return m_state;
+    }
+
+    transition_table_t<state_t, event_t> get_transition_table() const {
+        return m_transition_table;
+    }
+
+    enter_actions_t<state_t> get_enter_actions() const {
+        return m_enter_actions;
+    }
+
+    leave_actions_t<state_t> get_leave_actions() const {
+        return m_leave_actions;
     }
 
 private:

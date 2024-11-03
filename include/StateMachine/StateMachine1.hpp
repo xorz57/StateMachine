@@ -59,20 +59,20 @@ public:
         return false;
     }
 
-    state_t get_state() const {
-        return m_state;
-    }
-
-    transition_table_t<state_t, event_t> get_transition_table() const {
-        return m_transition_table;
-    }
-
     void set_state(const state_t &state) {
         m_state = state;
     }
 
     void set_transition_table(const transition_table_t<state_t, event_t> &transition_table) {
         m_transition_table = transition_table;
+    }
+
+    state_t get_state() const {
+        return m_state;
+    }
+
+    transition_table_t<state_t, event_t> get_transition_table() const {
+        return m_transition_table;
     }
 
 private:
